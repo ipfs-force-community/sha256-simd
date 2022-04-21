@@ -15,32 +15,6 @@
 
 package sha256
 
-import (
-	"bytes"
-	"io/ioutil"
-	"runtime"
-
-	"github.com/klauspost/cpuid/v2"
-)
-
 func hasArmSha2() bool {
-	if cpuid.CPU.Has(cpuid.SHA2) {
-		return true
-	}
-	if runtime.GOARCH != "arm64" || runtime.GOOS != "linux" {
-		return false
-	}
-
-	// Fall back to hacky cpuinfo parsing...
-	const procCPUInfo = "/proc/cpuinfo"
-
-	// Feature to check for.
-	const sha256Feature = "sha2"
-
-	cpuInfo, err := ioutil.ReadFile(procCPUInfo)
-	if err != nil {
-		return false
-	}
-	return bytes.Contains(cpuInfo, []byte(sha256Feature))
-
+	return false
 }
